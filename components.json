@@ -238,14 +238,14 @@
         {
             "type"          : "mutation",
             "name"          : "Discrete",
-            "cost"          : 1,
+            "cost"          : 2,
             "description"   : "Action is discrete if successful.",
             "invocation"    : "Quies"
         },
         {
             "type"          : "mutation",
             "name"          : "Hidden",
-            "cost"          : 1,
+            "cost"          : 3,
             "description"   : "Action is hidden if successful.",
             "invocation"    : "Occultus"
         },
@@ -259,8 +259,8 @@
         {
             "type"          : "mutation",
             "name"          : "Explosive",
-            "cost"          : 3,
-            "description"   : "If the action deals damage, all creatures within 20 feet of a target take factor-2 damage of the same type.",
+            "cost"          : 2,
+            "description"   : "If the action deals damage, all creatures within 10 feet of a target take factor-2 damage of the same type.",
             "invocation"    : "Explosio"
         },
         {

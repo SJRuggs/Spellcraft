@@ -3,7 +3,7 @@
 }
 
 .scrollable {
-    height      : 60vh;   /* Set a fixed height           */
+    height      : calc(100vh - 450px);   /* Full viewport minus header/progress area */
     overflow-y  : auto;     /* Enable vertical scrolling    */
     overflow-x  : hidden;   /* Hide horizontal scrolling    */
 }
@@ -18,26 +18,9 @@
     cursor: not-allowed;
 }
 
-.panel-tabs>.button {
-    box-shadow: none;
-}
-
 .button.has-text-left {
     text-align: left !important;
     justify-content: flex-start; /* For flexbox alignment */
-}
-
-.arrow-button {
-    border: none;
-    box-shadow: none;
-}
-
-.arrow-icon {
-    transition: transform 0.2s ease;
-}
-
-.rotated {
-    transform: rotate(-180deg);
 }
 
 .hide-on-desktop {
@@ -48,6 +31,33 @@
     display: block;
 }
 
+.progress {
+    transition: all 0.5s ease-in-out;
+}
+
+.progress::-webkit-progress-value {
+    transition: width 0.5s ease-in-out;
+}
+
+.progress::-moz-progress-bar {
+    transition: width 0.5s ease-in-out;
+}
+
+.arrow-block {
+    border-width: 0;
+    color: #2e333d;
+    justify-content: center;
+    text-align: center;
+    border-style: solid;
+    box-shadow: none;
+    font-size: 1rem;
+    height: 2.5em;
+    transition: all 0.2s ease-in-out;
+}
+
+.is-hidden>* {
+    display: none !important;
+}
 
 @media screen and (max-width: 768px) {
     .panel-tabs {
