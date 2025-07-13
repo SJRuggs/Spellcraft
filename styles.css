@@ -1,17 +1,9 @@
-/* More specific selector to override Bulma */
-.component {
-    background-color        : hsl(171, 30%, 5%) !important;
-    &:hover {
-        background-color    : hsl(171, 50%, 10%) !important;
-    }
-    display         : flex;         /* Use flexbox for layout   */
-    white-space     : normal;       /* Allow text wrapping      */
-    justify-content : stretch;      /* Fill width               */
-    align-items     : flex-start;   /* Align content to top     */
+:root {
+  --bulma-primary-h: 360deg;
 }
 
 .scrollable {
-    height      : 70.6vh;     /* Set a fixed height           */
+    height      : 60vh;   /* Set a fixed height           */
     overflow-y  : auto;     /* Enable vertical scrolling    */
     overflow-x  : hidden;   /* Hide horizontal scrolling    */
 }
@@ -26,6 +18,56 @@
     cursor: not-allowed;
 }
 
-a:hover {
-    color : white;
+.panel-tabs>.button {
+    box-shadow: none;
+}
+
+.button.has-text-left {
+    text-align: left !important;
+    justify-content: flex-start; /* For flexbox alignment */
+}
+
+.arrow-button {
+    border: none;
+    box-shadow: none;
+}
+
+.arrow-icon {
+    transition: transform 0.2s ease;
+}
+
+.rotated {
+    transform: rotate(-180deg);
+}
+
+.hide-on-desktop {
+    display: none;
+}
+
+.hide-on-mobile {
+    display: block;
+}
+
+
+@media screen and (max-width: 768px) {
+    .panel-tabs {
+        display                 : grid;
+        grid-template-columns   : 1fr 1fr 1fr; /* 3 columns */
+        grid-template-rows      : repeat(2, 1fr); /* 2 rows */
+        gap                     : 0;
+    }
+    
+    .panel-tabs a {
+        text-align      : center;
+        border          : 1px solid #dbdbdb;
+        border-radius   : 4px;
+    }
+
+    .hide-on-desktop {
+        display: block;
+    }
+
+    .hide-on-mobile {
+        display: none;
+    }
 }

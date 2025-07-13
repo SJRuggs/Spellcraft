@@ -1,35 +1,32 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Spellcraft</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
-  </head>
-  <body>
-  <section class="section">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Spellcraft</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <link rel="stylesheet" href="styles.css">
+        <script src="script.js" defer></script>
+    </head>
+    <body>
+    <section class="section">
 
-    <h1 class="title has-text-centered">Spellcraft</h1>
-      
-      <p class="subtitle has-text-centered">
-        Six Steps to Success!
-      </p>
-
-      <p class="panel-tabs">
-            <a id="target" class="is-active">I. Targets</a>
-            <a id="range">II. Ranges</a>
-            <a id="aspect">III. Aspects</a>
-            <a id="mutation">IV. Mutations</a>
-            <a id="damage" class="is-disabled">V. Damage</a>
-            <a id="form" class="is-disabled">VI. Forms</a>
+        <h1 class="title has-text-centered">Spellcraft</h1>
+        <p class="subtitle has-text-centered">
+            Six Steps to Success!
         </p>
 
-    <nav class="panel">
-        <div class="scrollable" id="components-panel"></div>
-    </nav>
+        <p class="panel-tabs">
+            <button class="button is-primary m-3" id="target">Targets</button>
+            <button class="button is-outlined is-primary m-3" id="range">Ranges</button>
+            <button class="button is-outlined is-primary m-3" id="aspect">Aspects</button>
+            <button class="button is-outlined is-primary m-3" id="mutation">Mutations</button>
+            <button class="button is-outlined is-primary m-3 is-disabled" id="damage">Damage</button>
+            <button class="button is-outlined is-primary m-3 is-disabled" id="form">Forms</button>
+        </p>
+        <div class="scrollable is-flex is-flex-direction-column mt-5" id="components"></div>
 
-  </section>
-  </body>
+    </section>
+    </body>
 </html>

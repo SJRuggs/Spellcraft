@@ -33,7 +33,7 @@
             "type"          : "target",
             "name"          : "Sphere",
             "cost"          : 4,
-            "description"   : "Targets all objects and creatures within a 20 ft sphere originating at a point within range",
+            "description"   : "Targets all objects and creatures within a 20 ft sphere originating at a point within range.",
             "invocation"    : "Sphaera"
         },
         {
@@ -54,7 +54,7 @@
             "type"          : "target",
             "name"          : "Selective Sphere",
             "cost"          : 5,
-            "description"   : "Targets chosen objects and creatures within a 20 ft sphere originating at a point within range",
+            "description"   : "Targets chosen objects and creatures within a 20 ft sphere originating at a point within range.",
             "invocation"    : "Sphaera Strictus"
         },
         {
