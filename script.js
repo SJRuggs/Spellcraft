@@ -26,7 +26,7 @@ var last = {};
 var legend =`
 <span style="width: 200px">Name</span>
 <span style="width: 100px">Cost</span>
-<span style="width: 200px">Invocation</span>
+<span style="width: 150px">Invocation</span>
 <span>Description</span>`;
 var aspectLegend =`
 <span style="width: 150px">Name</span>
@@ -176,7 +176,7 @@ function createButton(comp) {
     var normalText = `
         <span class="has-text-weight-bold" style="width: 200px; flex-shrink: 0;">${comp.name}</span>
         <span style="width: 100px; flex-shrink: 0;">${comp.cost} Mana</span>
-        <span style="width: 200px; flex-shrink: 0;"><i>"${comp.invocation}"</i></span>
+        <span style="width: 150px; flex-shrink: 0;"><i>"${comp.invocation}"</i></span>
     `;
     var aspectText = `
         <span class="has-text-weight-bold" style="width: 150px; flex-shrink: 0;">${comp.name}</span>

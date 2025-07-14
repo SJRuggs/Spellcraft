@@ -64,24 +64,24 @@
         },
         {
             "type"          : "target",
-            "name"          : "Remote Line",
+            "name"          : "Wall",
             "cost"          : 4,
             "description"   : "Targets all objects and creatures on a line between two points within range",
-            "invocation"    : "Linea Remotus"
+            "invocation"    : "Murus"
+        },
+        {
+            "type"          : "target",
+            "name"          : "Radius",
+            "cost"          : 5,
+            "description"   : "Targets all objects and creatures within a 20 ft of you",
+            "invocation"    : "Radii"
         },
         {
             "type"          : "target",
             "name"          : "Sphere",
-            "cost"          : 5,
-            "description"   : "Targets all objects and creatures within a 20 ft sphere centered on you",
-            "invocation"    : "Sphaera"
-        },
-        {
-            "type"          : "target",
-            "name"          : "Remote Sphere",
             "cost"          : 6,
             "description"   : "Targets all objects and creatures within a 20 ft sphere centered on a point within range",
-            "invocation"    : "Sphaera Strictus"
+            "invocation"    : "Sphaera"
         },
         {
             "type"          : "range",
