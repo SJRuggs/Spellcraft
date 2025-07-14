@@ -22,19 +22,6 @@ const restart = document.getElementById('restart');
 const cont = document.getElementById('continue');
 var last = {};
 
-// Legends for component display
-var legend =`
-<span style="width: 200px">Name</span>
-<span style="width: 100px">Cost</span>
-<span style="width: 150px">Invocation</span>
-<span>Description</span>`;
-var aspectLegend =`
-<span style="width: 150px">Name</span>
-<span style="width: 100px">Cost</span>
-<span style="width: 150px">Invocation</span>
-<span style="width: 150px">Counter</span>
-<span>Description</span>`;
-
 // Initialize the application
 startup();
 
@@ -148,8 +135,12 @@ function assignTabFunction(target, data) {
     document.getElementById('component-tab-title').innerHTML = tab.title;
     document.getElementById('component-tab-description').innerHTML = tab.description;
 
-    if (currentTab === 'aspect') legendElement.innerHTML = aspectLegend;
-    else legendElement.innerHTML = legend;
+    legendElement.innerHTML = `
+        <span style="width: 150px">Name</span>
+        <span style="width: 150px">Cost</span>
+        <span style="width: 150px">Invocation</span>
+        ${currentTab === 'aspect' ? `<span style="width: 150px">Counter</span>` : ''}
+        <span>Description</span>`
 }
 
 
@@ -172,23 +163,13 @@ function createButton(comp) {
         else addComp(comp);
     });
     
-    // Responsive HTML layout - different views for desktop and mobile, and for aspects or not
-    var normalText = `
-        <span class="has-text-weight-bold" style="width: 200px; flex-shrink: 0;">${comp.name}</span>
-        <span style="width: 100px; flex-shrink: 0;">${comp.cost} Mana</span>
-        <span style="width: 150px; flex-shrink: 0;"><i>"${comp.invocation}"</i></span>
-    `;
-    var aspectText = `
-        <span class="has-text-weight-bold" style="width: 150px; flex-shrink: 0;">${comp.name}</span>
-        <span style="width: 100px; flex-shrink: 0;">${comp.cost} Mana</span>
-        <span style="width: 150px; flex-shrink: 0;"><i>"${comp.invocation}"</i></span>
-        <span style="width: 150px; flex-shrink: 0;">${comp.counter}</span>
-    `;
-    
     btn.innerHTML = `
         <div class="hide-on-mobile">
             <div class="is-flex" style="width: 100%;">
-            ${comp.type === 'aspect' ? aspectText : normalText}
+                <span class="has-text-weight-bold" style="width: 150px; flex-shrink: 0;">${comp.name}</span>
+                <span style="width: 150px; flex-shrink: 0;">${comp.cost} Mana</span>
+                <span style="width: 150px; flex-shrink: 0;"><i>"${comp.invocation}"</i></span>
+                ${comp.type === 'aspect' ? `<span style="width: 150px; flex-shrink: 0;">${comp.counter}</span>` : ''}
                 <div style="word-wrap: break-word; overflow-wrap: break-word; white-space: normal; max-width: 100%; width: 100%;">${comp.description}</div>
             </div>
         </div>
@@ -216,7 +197,7 @@ function createButton(comp) {
  */
 function createArrowControls(comp) {
     const arrows = document.createElement('div');
-    arrows.className = 'arrow-block is-flex is-align-items-center is-justify-content-center mb-2';
+    arrows.className = 'arrow-block is-flex is-align-items-center is-justify-content-center';
     Object.assign(arrows.style, { width: '0', height: '0', opacity: '0' }); // Initially hidden
     
     // Left arrow (decrease quantity)
@@ -267,7 +248,7 @@ function addComp(comp) {
     // Show arrows for target components (they support multiple quantities)
     if (comp.type === 'target') 
         Object.assign(comp.arrows.style, {
-            width: '80px',
+            width: '100px',
             height: '40px',
             opacity: '1'
         });
