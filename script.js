@@ -140,7 +140,7 @@ function assignTabFunction(target, data) {
         <span style="width: 150px">Cost</span>
         <span style="width: 150px">Invocation</span>
         ${currentTab === 'aspect' ? `<span style="width: 150px">Counter</span>` : ''}
-        <span>Description</span>`
+        <span>Description</span>`;
 }
 
 
