@@ -1,109 +1,135 @@
 {
+    "tabs" :
+    {
+        "target" : 
+        {
+            "title" : "Targets",
+            "description" : "Choose one or more"
+        },
+        "range" : 
+        {
+            "title" : "Ranges",
+            "description" : "Choose one"
+        },
+        "aspect" : 
+        {
+            "title" : "Aspects",
+            "description" : "Choose one or more"
+        },
+        "damage" : 
+        {
+            "title" : "Damage",
+            "description" : "Choose one"
+        },
+        "mutation" : 
+        {
+            "title" : "Mutations",
+            "description" : "Choose none, one, or more"
+        },
+        "form" : 
+        {
+            "title" : "Forms",
+            "description" : "Choose one"
+        }
+    },
     "components" : 
     [
         {
             "type"          : "target",
             "name"          : "Object",
             "cost"          : 1,
-            "description"   : "Target must be an object.",
+            "description"   : "Target must be an object",
             "invocation"    : "Res"
         },
         {
             "type"          : "target",
             "name"          : "Creature",
             "cost"          : 2,
-            "description"   : "Target must be a creature.",
+            "description"   : "Target must be a creature",
             "invocation"    : "Anima"
         },
         {
             "type"          : "target",
             "name"          : "Cone",
             "cost"          : 3,
-            "description"   : "Targets all objects and creatures within a cone originating at you to range.",
+            "description"   : "Targets all objects and creatures within a 60° cone from you to range",
             "invocation"    : "Conus"
         },
         {
             "type"          : "target",
             "name"          : "Line",
             "cost"          : 3,
-            "description"   : "Targets all objects and creatures within a line originating at you to range.",
+            "description"   : "Targets all objects and creatures on a line between you and range",
             "invocation"    : "Linea"
         },
         {
             "type"          : "target",
-            "name"          : "Sphere",
+            "name"          : "Remote Line",
             "cost"          : 4,
-            "description"   : "Targets all objects and creatures within a 20 ft sphere originating at a point within range.",
+            "description"   : "Targets all objects and creatures on a line between two points within range",
+            "invocation"    : "Linea Remotus"
+        },
+        {
+            "type"          : "target",
+            "name"          : "Sphere",
+            "cost"          : 5,
+            "description"   : "Targets all objects and creatures within a 20 ft sphere centered on you",
             "invocation"    : "Sphaera"
         },
         {
             "type"          : "target",
-            "name"          : "Selective Cone",
-            "cost"          : 4,
-            "description"   : "Targets chosen objects and creatures within a cone originating at you to range.",
-            "invocation"    : "Conus Strictus"
-        },
-        {
-            "type"          : "target",
-            "name"          : "Selective Line",
-            "cost"          : 4,
-            "description"   : "Targets chosen objects and creatures within a line originating at you to range.",
-            "invocation"    : "Linea Strictus"
-        },
-        {
-            "type"          : "target",
-            "name"          : "Selective Sphere",
-            "cost"          : 5,
-            "description"   : "Targets chosen objects and creatures within a 20 ft sphere originating at a point within range.",
+            "name"          : "Remote Sphere",
+            "cost"          : 6,
+            "description"   : "Targets all objects and creatures within a 20 ft sphere centered on a point within range",
             "invocation"    : "Sphaera Strictus"
         },
         {
             "type"          : "range",
             "name"          : "Self",
             "cost"          : 0,
-            "description"   : "You are the target (requires creature target).",
+            "description"   : "You are the target (requires creature target)",
             "invocation"    : "Ipse"
         },
         {
             "type"          : "range",
             "name"          : "Touch",
             "cost"          : 0,
-            "description"   : "You must touch the target.",
+            "description"   : "You must touch the target",
             "invocation"    : "Tactus"
         },
         {
             "type"          : "range",
             "name"          : "Short",
             "cost"          : 1,
-            "description"   : "You must see the target within 20 ft.",
+            "description"   : "You must see the target within 20 ft",
             "invocation"    : "Proxime"
         },
         {
             "type"          : "range",
             "name"          : "Medium",
             "cost"          : 2,
-            "description"   : "You must see the target within 50 ft.",
+            "description"   : "You must see the target within 50 ft",
             "invocation"    : "Medialis"
         },
         {
             "type"          : "range",
             "name"          : "Long",
             "cost"          : 3,
-            "description"   : "You must see the target within 100 ft.",
-            "invocation"    : "Remotus"
+            "description"   : "You must see the target within 100 ft",
+            "invocation"    : "Procul"
         },
         {
             "type"          : "range",
             "name"          : "Associated",
             "cost"          : 5,
-            "description"   : "You must touch an object strongly associated with the target.",
+            "description"   : "You must touch an object strongly associated with the target",
             "invocation"    : "Conexus"
         },
         {
             "type"          : "aspect",
             "name"          : "Conceal",
             "cost"          : 1,
-            "description"   : "Targets become hidden while you focus.",
+            "description"   : "Targets become hidden while you focus",
             "invocation"    : "Dissimulo",
             "counter"       : "Reveal"
         },
@@ -111,7 +137,7 @@
             "type"          : "aspect",
             "name"          : "Reveal",
             "cost"          : 1,
-            "description"   : "Dispels illusions, reveals secrets, and deciphers encrypted messages on targets.",
+            "description"   : "Dispels illusions, reveals secrets, and deciphers encrypted messages on targets",
             "invocation"    : "Revelo",
             "counter"       : "Conceal"
         },
@@ -119,7 +145,7 @@
             "type"          : "aspect",
             "name"          : "Attract",
             "cost"          : 2,
-            "description"   : "Targets are pulled to each other.",
+            "description"   : "Targets are pulled to each other",
             "invocation"    : "Magneto",
             "counter"       : "Levitate"
         },
@@ -127,7 +153,7 @@
             "type"          : "aspect",
             "name"          : "Levitate",
             "cost"          : 2,
-            "description"   : "Targets float through air up to 30 ft per round according to your will while you focus.",
+            "description"   : "Targets float through air up to 30 ft per round according to your will while you focus",
             "invocation"    : "Levo",
             "counter"       : "Attract"
         },
@@ -135,7 +161,7 @@
             "type"          : "aspect",
             "name"          : "Harm",
             "cost"          : 2,
-            "description"   : "Targets take damage (see damage types).",
+            "description"   : "Targets take damage (see damage tab)",
             "invocation"    : "Nocere",
             "counter"       : "Mend",
             "enable"        : "damage"
@@ -152,7 +178,7 @@
             "type"          : "aspect",
             "name"          : "Dispel",
             "cost"          : 3,
-            "description"   : "Dispels magical effects on targets.",
+            "description"   : "Dispels magical effects on targets",
             "invocation"    : "Resolvo",
             "counter"       : "Transfigure"
         },
@@ -160,7 +186,7 @@
             "type"          : "aspect",
             "name"          : "Transfigure",
             "cost"          : 3,
-            "description"   : "Targets transform into a chosen form while you focus (see forms).",
+            "description"   : "Targets transform into a chosen form while you focus (see forms)",
             "invocation"    : "Verto",
             "counter"       : "Dispel",
             "enable"        : "form"
@@ -169,7 +195,7 @@
             "type"          : "aspect",
             "name"          : "Expel",
             "cost"          : 3,
-            "description"   : "Push targets to range.",
+            "description"   : "Push targets to range",
             "invocation"    : "Expello",
             "counter"       : "Summon"
         },
@@ -177,7 +203,7 @@
             "type"          : "aspect",
             "name"          : "Summon",
             "cost"          : 3,
-            "description"   : "Pull targets to you.",
+            "description"   : "Pull targets to you",
             "invocation"    : "Vocare",
             "counter"       : "Expel"
         },
@@ -185,7 +211,7 @@
             "type"          : "aspect",
             "name"          : "Ward",
             "cost"          : 3,
-            "description"   : "Actions taken against targets cost 1 extra stamina while you focus.",
+            "description"   : "Actions taken against targets cost 1 extra stamina while you focus",
             "invocation"    : "Protego",
             "counter"       : "Warp"
         },
@@ -193,7 +219,7 @@
             "type"          : "aspect",
             "name"          : "Warp",
             "cost"          : 3,
-            "description"   : "Choose a target. All other targets teleport to it.",
+            "description"   : "Choose a target. All other targets teleport to it",
             "invocation"    : "Emergo",
             "counter"       : "Ward"
         },
@@ -201,7 +227,7 @@
             "type"          : "aspect",
             "name"          : "Conjure",
             "cost"          : 4,
-            "description"   : "Manifests a form at the target (see forms).",
+            "description"   : "Manifests a form at the target (see forms)",
             "invocation"    : "Creo",
             "counter"       : "Vanish",
             "enable"        : "form"
@@ -210,7 +236,7 @@
             "type"          : "aspect",
             "name"          : "Vanish",
             "cost"          : 4,
-            "description"   : "Targets don't exist while you focus.",
+            "description"   : "Targets don't exist while you focus",
             "invocation"    : "Evano",
             "counter"       : "Conjure"
         },
@@ -218,112 +244,112 @@
             "type"          : "damage",
             "name"          : "Kinetic",
             "cost"          : 0,
-            "description"   : "Action deals factor-4 kinetic damage.",
+            "description"   : "Action deals factor-4 kinetic damage",
             "invocation"    : "Illisus"
         },
         {
             "type"          : "damage",
             "name"          : "Energy",
             "cost"          : 2,
-            "description"   : "Action deals factor-5 energy damage.",
+            "description"   : "Action deals factor-5 energy damage",
             "invocation"    : "Auxilium"
         },
         {
             "type"          : "damage",
             "name"          : "Necrotic",
             "cost"          : 4,
-            "description"   : "Action deals factor-6 necrotic damage.",
+            "description"   : "Action deals factor-6 necrotic damage",
             "invocation"    : "Mortis"
         },
         {
             "type"          : "mutation",
             "name"          : "Discrete",
             "cost"          : 2,
-            "description"   : "Action is discrete if successful.",
+            "description"   : "Action is discrete if successful",
             "invocation"    : "Quies"
         },
         {
             "type"          : "mutation",
             "name"          : "Hidden",
             "cost"          : 3,
-            "description"   : "Action is hidden if successful.",
+            "description"   : "Action is hidden if successful",
             "invocation"    : "Occultus"
         },
         {
             "type"          : "mutation",
             "name"          : "Volatile",
             "cost"          : 2,
-            "description"   : "Targets that take damage are moved 10 ft away from you.",
+            "description"   : "Targets that take damage are moved 10 ft away from you",
             "invocation"    : "Volatilis"
         },
         {
             "type"          : "mutation",
             "name"          : "Explosive",
             "cost"          : 2,
-            "description"   : "If the action deals damage, all creatures within 10 feet of a target take factor-2 damage of the same type.",
+            "description"   : "If the action deals damage, all creatures within 10 feet of a target take factor-2 damage of the same type",
             "invocation"    : "Explosio"
         },
         {
             "type"          : "mutation",
             "name"          : "Branching",
             "cost"          : 3,
-            "description"   : "All creatures within 10 feet of any other target become targets.",
+            "description"   : "All creatures within 10 feet of any other target become targets",
             "invocation"    : "Ramus"
         },
         {
             "type"          : "mutation",
             "name"          : "Innate",
             "cost"          : 3,
-            "description"   : "Action doesn't require focus if all targets are objects.",
+            "description"   : "Action doesn't require focus if all targets are objects",
             "invocation"    : "Innatus"
         },
         {
             "type"          : "mutation",
             "name"          : "Cursed",
             "cost"          : 4,
-            "description"   : "Targets are cursed for 1 round.",
+            "description"   : "Targets are cursed for 1 round",
             "invocation"    : "Maledictus"
         },
         {
             "type"          : "form",
             "name"          : "Small Object",
             "cost"          : 0,
-            "description"   : "An object no larger than 1 ft.",
+            "description"   : "An object no larger than 1 ft",
             "invocation"    : "Parva Res"
         },
         {
             "type"          : "form",
             "name"          : "Medium Object",
             "cost"          : 1,
-            "description"   : "An object no larger than 10 ft.",
+            "description"   : "An object no larger than 10 ft",
             "invocation"    : "Media Res"
         },
         {
             "type"          : "form",
             "name"          : "Large Object",
             "cost"          : 2,
-            "description"   : "An object no larger than 20 ft.",
+            "description"   : "An object no larger than 20 ft",
             "invocation"    : "Magna Res"
         },
         {
             "type"          : "form",
             "name"          : "Small Creature",
             "cost"          : 2,
-            "description"   : "An creature no larger than 1 ft.",
+            "description"   : "An creature no larger than 1 ft",
             "invocation"    : "Parva Anima"
         },
         {
             "type"          : "form",
             "name"          : "Medium Creature",
             "cost"          : 3,
-            "description"   : "An creature no larger than 10 ft.",
+            "description"   : "An creature no larger than 10 ft",
             "invocation"    : "Media Anima"
         },
         {
             "type"          : "form",
             "name"          : "Large Creature",
             "cost"          : 4,
-            "description"   : "An creature no larger than 20 ft.",
+            "description"   : "An creature no larger than 20 ft",
             "invocation"    : "Magna Anima"
         }
     ]

@@ -1,7 +1,12 @@
-var allComps = [];
-var selectedComps = [];
-var currentTab = "target"; // Default tab
+// Global state variables
+var allComps;
+var selectedComps;
+var currentTab;
 var cost = 0;
+var selectedClassColor = 'primary';
+var data;
+
+// DOM element references
 const manaBar = document.getElementById('manaBar');
 const stamina1 = document.getElementById('stamina1');
 const stamina2 = document.getElementById('stamina2');
@@ -9,79 +14,181 @@ const stamina3 = document.getElementById('stamina3');
 const mana1 = document.getElementById('mana1');
 const mana2 = document.getElementById('mana2');
 const mana3 = document.getElementById('mana3');
+const legendElement = document.getElementById('legend');
+const panel = document.getElementById('components');
+const fadeTop = document.getElementById('fade-top');
+const fadeBottom = document.getElementById('fade-bottom');
+const restart = document.getElementById('restart');
+const cont = document.getElementById('continue');
+var last = {};
 
-// startup
-assignTabClickHandlers();
-populateComponents();
+// Legends for component display
+var legend =`
+<span style="width: 200px">Name</span>
+<span style="width: 100px">Cost</span>
+<span style="width: 200px">Invocation</span>
+<span>Description</span>`;
+var aspectLegend =`
+<span style="width: 150px">Name</span>
+<span style="width: 100px">Cost</span>
+<span style="width: 150px">Invocation</span>
+<span style="width: 150px">Counter</span>
+<span>Description</span>`;
+
+// Initialize the application
+startup();
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-function assignTabClickHandlers() {
-    document.querySelector('.panel-tabs').addEventListener('click', function(event) {
-        if (event.target.tagName === 'BUTTON' && event.target.classList.contains('is-outlined')) {
-            document.querySelectorAll('.panel-tabs button').forEach(tab => tab.classList.add('is-outlined'));
-            event.target.classList.remove('is-outlined');
-            currentTab = event.target.id;
-            for (const comp of allComps)
-                if (comp.type === currentTab) comp.block.classList.remove('is-hidden');
-                else comp.block.classList.add('is-hidden');
-        }
-    });
+async function startup() {
+    data = await fetchComponents();
+    assignTabClickHandlers(data);
+    populateComponents();
 }
 
-async function populateComponents() {
-    const panel = document.getElementById('components');
-    const comps = await fetchComponents();
+
+
+
+/**
+ * Loads and displays all components from the JSON file
+ * Sorts by cost and creates UI blocks for each component
+ */
+function populateComponents() {
+    components.innerHTML = '';
+    allComps = [];
+    selectedComps = [];
+    currentTab = "target";
+    changeCost(-100);
+
+    const comps = data.components;
     comps.sort((a, b) => a.cost - b.cost);
-    for (const comp of comps) createBlock(comp, panel); 
-    for (const comp of allComps)
-        if (comp.type === currentTab) comp.block.classList.remove('is-hidden');
-}
+    
+    // Create UI blocks for each component
+    for (const comp of comps) {
+        comp.count = 0;
+        const block = document.createElement('div');
+        panel.appendChild(block);
+        comp.block = block;
+        block.className = 'is-hidden is-flex is-align-items-center is-flex-direction-column-on-mobile';
 
+        // Component button
+        comp.btn = createButton(comp);
+        block.appendChild(comp.btn);
+        allComps.push(comp);
+
+        // Arrow controls for quantity selection
+        if(comp.type === 'target'){
+            comp.arrows = createArrowControls(comp);
+            block.appendChild(comp.arrows);
+        }
+    } 
+    
+    // Show components for the current tab
+    for (const comp of allComps)
+        if (comp.type === currentTab) {
+            comp.block.classList.remove('is-hidden');
+            last = comp;
+        }
+    
+    panel.addEventListener('scroll', handleScroll);
+    handleScroll();
+
+    assignTabFunction(document.getElementById('target'), data);
+
+    restart.addEventListener('click', () => populateComponents());
+}
 function fetchComponents() {
     return fetch('components.json')
       .then(response => {
         if (!response.ok) throw new Error('Failed to load JSON');
         return response.json();
       })
-      .then(data => {return data.components;})
+      .then(data => {return data;})
       .catch(error => console.error('Error:', error));
 }
 
-function createBlock(comp, panel) {
 
-    const block = document.createElement('div');
-    panel.appendChild(block);
-    comp.block = block;
-    block.className = 'is-hidden is-flex is-align-items-center';
 
+
+
+/**
+ * Sets up click handlers for the tab navigation
+ * Switches between different component types (target, form, etc.)
+ */
+function assignTabClickHandlers(data) {
+    document.querySelector('#component-tabs').addEventListener('click', function(event) { 
+        if (event.target.tagName === 'BUTTON' && event.target.classList.contains('is-outlined'))
+            assignTabFunction(event.target, data);
+    });
+}
+
+
+function assignTabFunction(target, data) {
+    document.querySelectorAll('#component-tabs button').forEach(tab => tab.classList.add('is-outlined'));
+    target.classList.remove('is-outlined');
+    
+    // Switch to new tab and filter components
+    clearScrollDetection();
+    currentTab = target.id;
+    for (const comp of allComps)
+        if (comp.type === currentTab) {
+            comp.block.classList.remove('is-hidden');
+            last.btn.classList.add('mb-2');
+            last = comp;
+        }
+        else comp.block.classList.add('is-hidden');
+    last.btn.classList.remove('mb-2');
+    panel.addEventListener('scroll', handleScroll);
+    handleScroll();
+    
+    const tab = data.tabs[currentTab];
+    document.getElementById('component-tab-title').innerHTML = tab.title;
+    document.getElementById('component-tab-description').innerHTML = tab.description;
+
+    if (currentTab === 'aspect') legendElement.innerHTML = aspectLegend;
+    else legendElement.innerHTML = legend;
+}
+
+
+
+
+
+/**
+ * Creates the main component button with responsive layout
+ * @param {Object} comp - Component data object
+ * @returns {HTMLElement} The created button element
+ */
+function createButton(comp) {
     const btn = document.createElement('button');
-    block.appendChild(btn);
-    comp.btn = btn;
-    allComps.push(comp);
-    btn.className = 'button has-text-left red-top mb-2';
+    btn.className = 'button has-text-left mb-2';
     btn.style.width = '100%';
     btn.compType = comp.type;
-    btn.id = comp.name
-    btn.addEventListener('click', () => selectComp(comp));
+    btn.id = comp.name;
+    btn.addEventListener('click', () => {
+        if (comp.btn.classList.contains(`is-${selectedClassColor}`))removeComp(comp);
+        else addComp(comp);
+    });
+    
+    // Responsive HTML layout - different views for desktop and mobile, and for aspects or not
+    var normalText = `
+        <span class="has-text-weight-bold" style="width: 200px; flex-shrink: 0;">${comp.name}</span>
+        <span style="width: 100px; flex-shrink: 0;">${comp.cost} Mana</span>
+        <span style="width: 200px; flex-shrink: 0;"><i>"${comp.invocation}"</i></span>
+    `;
+    var aspectText = `
+        <span class="has-text-weight-bold" style="width: 150px; flex-shrink: 0;">${comp.name}</span>
+        <span style="width: 100px; flex-shrink: 0;">${comp.cost} Mana</span>
+        <span style="width: 150px; flex-shrink: 0;"><i>"${comp.invocation}"</i></span>
+        <span style="width: 150px; flex-shrink: 0;">${comp.counter}</span>
+    `;
+    
     btn.innerHTML = `
         <div class="hide-on-mobile">
             <div class="is-flex" style="width: 100%;">
-                <span class="has-text-weight-bold" style="width: 200px; flex-shrink: 0;">${comp.name}</span>
-                <span style="width: 150px; flex-shrink: 0;">${comp.cost} Mana</span>
-                <span style="width: 200px; flex-shrink: 0;"><i>"${comp.invocation}"</i></span>
+            ${comp.type === 'aspect' ? aspectText : normalText}
                 <div style="word-wrap: break-word; overflow-wrap: break-word; white-space: normal; max-width: 100%; width: 100%;">${comp.description}</div>
             </div>
         </div>
@@ -93,93 +200,137 @@ function createBlock(comp, panel) {
             <div class="mb-5">
                 <i>"${comp.invocation}"</i>
             </div>
-            <div style="word-wrap: break-word; overflow-wrap: break-word; white-space: normal; max-width: 100%; width: 100%;">${comp.description}</div>
-        </div>
-        `;
+            <div style="word-wrap: break-word; overflow-wrap: break-word; white-space: normal;">${comp.description}</div>
+        </div>`;
+    return btn;
+}
 
+
+
+
+
+/**
+ * Creates the arrow control container with left/right arrows and number display
+ * @param {Object} comp - Component data object
+ * @returns {HTMLElement} The arrow controls container
+ */
+function createArrowControls(comp) {
     const arrows = document.createElement('div');
-    comp.arrows = arrows;
-    block.appendChild(arrows);
-    arrows.style.width = '0';
-    arrows.style.opacity = '0';
-    arrows.className = 'arrow-block ml-2 is-flex is-align-items-center is-justify-content-center mb-2';
+    arrows.className = 'arrow-block is-flex is-align-items-center is-justify-content-center mb-2';
+    Object.assign(arrows.style, { width: '0', height: '0', opacity: '0' }); // Initially hidden
     
-    // Create left arrow
-    const leftArrow = document.createElement('button');
-    leftArrow.className = 'is-small mr-1 p-2';
-    leftArrow.innerHTML = '<i class="fas fa-chevron-left"></i>';
-    leftArrow.addEventListener('click', () => removeComp(comp));
+    // Left arrow (decrease quantity)
+    const leftArrow = createArrowButton('fas fa-chevron-left', () => removeComp(comp));
     arrows.appendChild(leftArrow);
     
-    // Create number display
-    const numberDisplay = document.createElement('strong');
-    comp.countDisplay = numberDisplay;
-    comp.count = 0; // Initialize count
-    numberDisplay.className = 'is-small has-text-primary mx-1';
-    numberDisplay.textContent = '0';
-    numberDisplay.style.width = '20px'; // Set a fixed width for consistency
-    arrows.appendChild(numberDisplay);
+    // Number display (shows current quantity)
+    comp.countDisplay = document.createElement('strong');
+    comp.countDisplay.className = `is-small has-text-${selectedClassColor} mx-1 has-text-centered dynamic-text`;
+    comp.countDisplay.style.width = '20px';
+    comp.countDisplay.textContent = '0';
+    arrows.appendChild(comp.countDisplay);
     
-    // Create right arrow
-    const rightArrow = document.createElement('button');
-    rightArrow.className = 'is-small ml-1 p-2';
-    rightArrow.innerHTML = '<i class="fas fa-chevron-right"></i>';
-    rightArrow.addEventListener('click', () => addComp(comp));
+    // Right arrow (increase quantity)
+    const rightArrow = createArrowButton('fas fa-chevron-right', () => addComp(comp));
+    comp.rightArrow = rightArrow; // Store reference for later use
     arrows.appendChild(rightArrow);
     
-    // Store references for easy access
-    comp.leftArrow = leftArrow;
-    comp.numberDisplay = numberDisplay;
-    comp.rightArrow = rightArrow;
-    
+    return arrows;
+}
+function createArrowButton(iconClass, clickHandler) {
+    const button = document.createElement('button');
+    button.className = 'is-small p-2 dynamic-arrow has-text-primary';
+    button.innerHTML = `<i class="${iconClass}"></i>`;
+    button.addEventListener('click', clickHandler);
+    return button;
 }
 
-function selectComp(comp) {
-    if (comp.btn.classList.contains('is-primary'))removeComp(comp);
-    else addComp(comp);
-}
 
-function removeComp(comp) {
-    const index = selectedComps.indexOf(comp);
-    if (index > -1) {
-        selectedComps.splice(index, 1);
-        changeCost(-comp.cost);
-        if (comp.counter) document.getElementById(comp.counter).classList.remove('is-disabled');
-        if (comp.enable) {
-            document.getElementById(comp.enable).classList.add('is-disabled');
-            for (searchComp of allComps)
-                if (searchComp.type === comp.enable)
-                    removeComp(searchComp);
-        }
-        comp.count--;
-        if (comp.type === 'target' && comp.count === 0) {
-            comp.btn.classList.remove('is-primary');
-            comp.arrows.style.width = '0';
-            comp.arrows.style.opacity = '0';
-            setTimeout(() => {comp.countDisplay.textContent = comp.count;}, 200);
-        } else comp.countDisplay.textContent = comp.count;
-    }
-}
 
+
+
+/**
+ * Adds a component to the selection
+ * Handles dependencies, cost updates, and UI changes
+ * @param {Object} comp - Component to add
+ */
 function addComp(comp) {
     comp.count++;
-    comp.countDisplay.textContent = comp.count;
-    comp.btn.classList.add('is-primary');
+    if (comp.type === 'target') comp.countDisplay.textContent = comp.count;
+    comp.btn.classList.add(`is-${selectedClassColor}`);
     selectedComps.push(comp);
+    
+    // Handle component dependencies
     if (comp.counter) document.getElementById(comp.counter).classList.add('is-disabled');
     if (comp.enable) document.getElementById(comp.enable).classList.remove('is-disabled');
-    if (comp.type === 'target') {
-        comp.arrows.style.width = '80px';
-        comp.arrows.style.opacity = '1';
-    }
+    
+    // Show arrows for target components (they support multiple quantities)
+    if (comp.type === 'target') 
+        Object.assign(comp.arrows.style, {
+            width: '80px',
+            height: '40px',
+            opacity: '1'
+        });
     changeCost(comp.cost);
 }
 
+
+
+
+
+/**
+ * Removes a component from the selection
+ * Handles dependencies, cost updates, and UI changes
+ * @param {Object} comp - Component to remove
+ */
+function removeComp(comp) {
+    const index = selectedComps.indexOf(comp);
+    if (index === -1) return; // Component not selected
+    
+    selectedComps.splice(index, 1);
+    changeCost(-comp.cost);
+    
+    // Handle component dependencies
+    if (comp.counter) document.getElementById(comp.counter).classList.remove('is-disabled');
+    if (comp.enable) {
+        document.getElementById(comp.enable).classList.add('is-disabled');
+        allComps.filter(c => c.type === comp.enable).forEach(removeComp);
+    }
+    
+    // Update count and UI
+    comp.count--;
+    if (comp.count == 0) {
+        comp.btn.classList.remove(`is-${selectedClassColor}`);
+        if (comp.type === 'target') 
+            Object.assign(comp.arrows.style, {
+                width: '0',
+                height: '0',
+                opacity: '0'
+            });
+    }
+    
+    // Update count display for target components
+    if (comp.type === 'target') {
+        if (comp.count == 0) setTimeout(() => comp.countDisplay.textContent = comp.count, 200); // Delayed for animation
+        else comp.countDisplay.textContent = comp.count;
+    }
+}
+
+
+
+
+
+/**
+ * Updates the total cost and manages mana/stamina indicators
+ * Also handles component availability based on mana limits
+ * @param {number} i - Cost change amount (positive or negative)
+ */
 function changeCost(i) {
     cost += i;
+    if (cost < 0) cost = 0; // Prevent negative cost
     manaBar.value = cost;
 
-    // Update stamina and mana indicators
+    // Update stamina and mana indicators based on cost thresholds
     const ranges = [
         { threshold: 0, stamina: stamina1, mana: mana1 },
         { threshold: 5, stamina: stamina2, mana: mana2 },
@@ -196,12 +347,40 @@ function changeCost(i) {
         }
     });
 
-    // Disable components whose cost would exceed the mana bar
+    // Disable components that would exceed mana limit
     allComps.forEach(comp => {
-        if (comp.cost + cost > manaBar.max && !comp.btn.classList.contains('is-primary')) {
-            comp.btn.classList.add('is-disabled');
-        } else {
-            comp.btn.classList.remove('is-disabled');
-        }
+        if (comp.cost + cost > manaBar.max && !comp.btn.classList.contains(`is-${selectedClassColor}`)) comp.btn.classList.add('is-disabled-for-mana');
+        else comp.btn.classList.remove('is-disabled-for-mana');
+        if (comp.rightArrow)
+            if (comp.cost + cost > manaBar.max) comp.rightArrow.classList.add('is-disabled-for-mana');
+            else comp.rightArrow.classList.remove('is-disabled-for-mana');
+
     });
+}
+
+
+
+    
+
+/**
+ * Sets up scroll event listener to show/hide fade effects based on scroll position
+ * Shows top fade when content is scrolled down, bottom fade when more content is below
+ */
+function handleScroll() {
+    const { scrollTop, scrollHeight, clientHeight } = panel;
+    
+    // Show top fade if scrolled down from top (content hidden above)
+    if (scrollTop > 5) fadeTop.style.display = 'block';
+    else fadeTop.style.display = 'none';
+    
+    // Show bottom fade if there's more content below (content hidden below)
+    if (scrollTop + clientHeight < scrollHeight - 5) fadeBottom.style.display = 'block';
+    else fadeBottom.style.display = 'none';
+}
+
+function clearScrollDetection() {
+    // Remove scroll listener and hide fades
+    panel.removeEventListener('scroll', handleScroll);
+    fadeTop.style.display = 'none';
+    fadeBottom.style.display = 'none';
 }

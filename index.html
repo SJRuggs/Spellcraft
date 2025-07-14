@@ -12,17 +12,14 @@
     <body>
     <section class="section">
 
-        <h1 class="title has-text-centered">Spellcraft</h1>
+        <!-- Title -->
+        <h1 class="title is-2 has-text-centered">Spellcraft</h1>
 
-        <p class="panel-tabs">
-            <button class="button is-primary m-3" id="target">Targets</button>
-            <button class="button is-outlined is-primary m-3" id="range">Ranges</button>
-            <button class="button is-outlined is-primary m-3" id="aspect">Aspects</button>
-            <button class="button is-outlined is-primary m-3" id="mutation">Mutations</button>
-            <button class="button is-outlined is-primary m-3 is-disabled" id="damage">Damage</button>
-            <button class="button is-outlined is-primary m-3 is-disabled" id="form">Forms</button>
-        </p>
 
+        <!-- Tabs -->
+        
+
+        <!-- Cost Bar -->
         <div class="is-flex m-5 is-flex-direction-column">
             <div class="is-flex">
                 <strong class="pb-5 pl-1 has-text-centered" style="flex: 1; border-right: 2px solid white; height: 20px;">
@@ -55,13 +52,47 @@
                 </strong>
             </div>
         </div>
-
-
          
-        
+        <div class="is-flex is-flex-direction-column-on-mobile is-align-items-center is-justify-content-between is-align-items-left-on-mobile mt-5" style="min-width: 100%">
+            <div class="is-flex is-flex-grow-1 mr-3 is-flex-direction-column">
+                <span class="title is-4 m-0 mr-3 ml-2" id="component-tab-title">Targets</span>
+                <span class="is-size-5 m-0 is-flex-grow-1 ml-2" id="component-tab-description">Choose one or more</span>
+            </div>
+            <p class="is-flex is-justify-content-end" id="component-tabs">
+                <button class="button is-primary m-2" id="target">Targets</button>
+                <button class="button is-outlined is-primary m-2" id="range">Ranges</button>
+                <button class="button is-outlined is-primary m-2" id="aspect">Aspects</button>
+                <button class="button is-outlined is-primary m-2" id="mutation">Mutations</button>
+                <button class="button is-outlined is-primary m-2 is-disabled" id="damage">Damage</button>
+                <button class="button is-outlined is-primary m-2 is-disabled" id="form">Forms</button>
+            </p>
+        </div>
 
 
-        <div class="scrollable is-flex is-flex-direction-column mt-5" id="components"></div>
+        <div class="is-flex is-flex-direction-column mt-5">
+            <div class="hide-on-mobile is-flex has-text-weight-bold ml-5" id="legend" style="width: 100%;">
+                <span style="width: 200px">Name</span>
+                <span style="width: 100px">Cost</span>
+                <span style="width: 200px">Invocation</span>
+                <span>Description</span>
+            </div>
+            <div id="scroll-wrapper">
+                <div class="scrollable is-flex is-flex-direction-column p-2" id="components">
+                </div>
+                <div id="fade-top"></div>
+                <div id="fade-bottom"></div>
+                <div class="is-primary" id="wrapper-footer">
+                    <button class="button is-danger" style="height: 40px;" id="restart">
+                        <i class="fas fa-trash" style="font-size: 1.2rem;"></i>
+                        <strong class="pl-3" style="font-size: 1.2rem;">Restart</strong>
+                    </button>
+                    <button class="button is-success" style="height: 40px;" id="continue">
+                        <strong class="pr-3" style="font-size: 1.2rem;">Continue</strong>
+                        <i class="fas fa-angle-double-right" style="font-size: 1.5rem;"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
 
     </section>
     </body>

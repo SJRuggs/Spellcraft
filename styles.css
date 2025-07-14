@@ -1,18 +1,67 @@
 :root {
-  --bulma-primary-h: 360deg;
+  --bulma-danger-l: 60%;
+}
+
+
+#scroll-wrapper {
+    position: relative; /* For positioning fade overlays */
+    height: calc(100vh - 500px); /* Maximum height, not fixed height */
+    background-color: hsl(220, 14%, 21%);
+    border-radius: 6px 6px 0 0;
 }
 
 .scrollable {
-    height      : calc(100vh - 450px);   /* Full viewport minus header/progress area */
-    overflow-y  : auto;     /* Enable vertical scrolling    */
-    overflow-x  : hidden;   /* Hide horizontal scrolling    */
+    height: 100%; /* Fill the wrapper */
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: hidden; /* Hide horizontal scrolling */
 }
 
 .scrollable::-webkit-scrollbar {
-    width       : 0px;
+    width: 0px;
+}
+
+#fade-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: linear-gradient(to bottom, hsl(220, 13%, 9%) 0%, transparent 100%);
+    pointer-events: none; /* Don't interfere with scrolling */
+    z-index: 10; /* Appear above content */
+    display: none; /* Hidden by default */
+    border-radius: 6px 6px 0 0;
+}
+
+#fade-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: linear-gradient(to top, hsl(220, 13%, 9%) 0%, transparent 100%);
+    pointer-events: none; /* Don't interfere with scrolling */
+    z-index: 10; /* Appear above content */
+    display: none; /* Hidden by default */
+}
+
+#wrapper-footer {
+    position: relative;
+    background-color: hsl(220, 14%, 41%);
+    border-radius: 0 0 6px 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1em;
 }
 
 .is-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.is-disabled-for-mana {
     opacity: 0.5;
     pointer-events: none;
     cursor: not-allowed;
@@ -55,29 +104,58 @@
     transition: all 0.2s ease-in-out;
 }
 
-.is-hidden>* {
+.is-hidden {
     display: none !important;
 }
 
-@media screen and (max-width: 768px) {
-    .panel-tabs {
-        display                 : grid;
-        grid-template-columns   : 1fr 1fr 1fr; /* 3 columns */
-        grid-template-rows      : repeat(2, 1fr); /* 2 rows */
-        gap                     : 0;
-    }
-    
-    .panel-tabs a {
-        text-align      : center;
-        border          : 1px solid #dbdbdb;
-        border-radius   : 4px;
+
+
+
+
+
+@media screen and (max-width: 1200px) {
+    #component-tabs {
+        flex-wrap:wrap;
+        justify-content: space-evenly;
     }
 
+    #component-tabs button {
+        flex: 0 0 calc(33.33% - 1rem);
+        min-width: calc(33.33% - 1rem);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #component-tabs button {
+        flex: 0 0 calc(33.333% - 1rem);
+        min-width: calc(33.333% - 1rem);
+    }
+    
     .hide-on-desktop {
         display: block;
     }
 
     .hide-on-mobile {
-        display: none;
+        display: none !important;
+    }
+
+    .is-flex-direction-column-on-mobile {
+        flex-direction: column !important;
+    }
+
+    .is-align-items-left-on-mobile
+    {
+        align-items: flex-start !important;
+    }
+
+    .dynamic-arrow {
+        font-size: 1.5rem;
+        min-width: 100px;
+    }
+
+    .dynamic-text {
+        font-size: 1.5rem;
+        max-width: 50px;
+        min-width: 50px;
     }
 }
